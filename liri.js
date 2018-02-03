@@ -25,7 +25,6 @@ var queryUrl = "http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=tr
 //accessing keys 
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
-var omdb = new omdb(keys.OMDB);
 
 //process arugments
 var service = process.argv[2];
@@ -33,13 +32,36 @@ var search = process.argv[3];
 
 
 
-if (service === "spotify") {
-    spotify();
-}else if(service === "twitter"){
-    twitter();
-}else if(service === "omdb"){
-    omdb();
+switch (service) {
+    case "movie-this":
+        omdb();
+        break;
+
+    case "spotify-this-song":
+        spotify();
+        break;
+
+    case "my-tweets":
+        spotify();
+        break;
+
+    case "do-what-it-says":
+        doWhat();
+        break;
+
+    default:
+        break;
 }
+
+
+
+// function fsAppend() {
+//     fs.appendFile("random.txt", ", " + value, function (err) {
+//         if (err) {
+//             return console.log(err);
+//         }
+//     })
+// }
 
 
 
@@ -49,14 +71,8 @@ function spotify() {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        // We will add the value to the random text file.
-        fs.appendFile("random.txt", ", " + value, function (err) {
-            if (err) {
-                return console.log(err);
-            }
-        })
+        console.log(data);
     });
-    
 }
 
 
@@ -67,34 +83,49 @@ function twitter() {
         if (!error) {
             console.log(tweets);
         }
-        // We will add the value to the random text file.
-        fs.appendFile("random.txt", ", " + value, function (err) {
-            if (err) {
-                return console.log(err);
-            }
-        })
+        
     });
-    
 }
 
 
 //OMDB
 function omdb() {
-    request(queryUrl, function (error, response, body) {
+    request(`http://www.omdbapi.com/?apikey=trilogy&t=${search}`, function (error, response, body) {
+        //parse JSON and store to const data
+        const data = JSON.parse(body);
 
         // If the request is successful
         if (!error && response.statusCode === 200) {
+            console.log(data.Title);
+            console.log(data.Year);
+            console.log(data.imbdRating);
+            console.log(data.Country);
+            console.log(data.Language);
+            console.log(data.Plot);
+            console.log(data.Actors);
 
-            // Parse the body of the site and recover just the imdbRating
-            // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
-            console.log("Release Year: " + JSON.parse(body).Year);
         }
-        // We will add the value to the random text file.
-        fs.appendFile("random.txt", ", " + value, function (err) {
-            if (err) {
-                return console.log(err);
-            }
-        })
+    });
+}
+
+
+//I want
+function doWhat() {
+    request('http://www.omdbapi.com/?apikey=trilogy&t="I Want it That Way"', function (error, response, body) {
+        //parse JSON and store to const data
+        const data = JSON.parse(body);
+
+        // If the request is successful
+        if (!error && response.statusCode === 200) {
+            console.log(data.Title);
+            console.log(data.Year);
+            console.log(data.imbdRating);
+            console.log(data.Country);
+            console.log(data.Language);
+            console.log(data.Plot);
+            console.log(data.Actors);
+
+        }
     });
 }
 
