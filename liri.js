@@ -68,10 +68,14 @@ switch (service) {
 //Spotify
 function song() {
     spotify.search({ type: 'track', query: search }, function (err, data) {
+        const track = data.tracks.items[0];
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        console.log(data.tracks.items[0]);
+        console.log(track.artists[0].name);
+        console.log(track.name);
+        console.log(track.preview_url);
+        console.log(track.album.name);
     });
 }
 
