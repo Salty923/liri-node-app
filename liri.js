@@ -41,9 +41,9 @@ switch (service) {
         song();
         break;
 
-    // case "my-tweets":
-    //     spotify();
-    //     break;
+    case "my-tweets":
+        twitter();
+        break;
 
     case "do-what-it-says":
         doWhat();
@@ -80,16 +80,16 @@ function song() {
 }
 
 
-// //Twitter
-// function twitter() {
-//     var params = { screen_name: 'nodejs' };
-//     client.get('statuses/user_timeline', params, function (error, tweets, response) {
-//         if (!error) {
-//             console.log(tweets);
-//         }
+//Twitter
+function twitter() {
+    var params = { screen_name: 'saltzman_scott' };
+    client.get('statuses/user_timeline', params, function (error, tweets, response) {
+        if (!error) {
+            console.log(tweets);
+        }
         
-//     });
-// }
+    });
+}
 
 
 //OMDB
