@@ -38,12 +38,12 @@ switch (service) {
         break;
 
     case "spotify-this-song":
-        spotify();
+        song();
         break;
 
-    case "my-tweets":
-        spotify();
-        break;
+    // case "my-tweets":
+    //     spotify();
+    //     break;
 
     case "do-what-it-says":
         doWhat();
@@ -66,26 +66,26 @@ switch (service) {
 
 
 //Spotify
-function spotify() {
+function song() {
     spotify.search({ type: 'track', query: search }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        console.log(data);
+        console.log(data.tracks.items[0]);
     });
 }
 
 
-//Twitter
-function twitter() {
-    var params = { screen_name: 'nodejs' };
-    client.get('statuses/user_timeline', params, function (error, tweets, response) {
-        if (!error) {
-            console.log(tweets);
-        }
+// //Twitter
+// function twitter() {
+//     var params = { screen_name: 'nodejs' };
+//     client.get('statuses/user_timeline', params, function (error, tweets, response) {
+//         if (!error) {
+//             console.log(tweets);
+//         }
         
-    });
-}
+//     });
+// }
 
 
 //OMDB
@@ -109,25 +109,25 @@ function omdb() {
 }
 
 
-//I want
-function doWhat() {
-    request('http://www.omdbapi.com/?apikey=trilogy&t="I Want it That Way"', function (error, response, body) {
-        //parse JSON and store to const data
-        const data = JSON.parse(body);
+// //I want
+// function doWhat() {
+//     request('http://www.omdbapi.com/?apikey=trilogy&t="I Want it That Way"', function (error, response, body) {
+//         //parse JSON and store to const data
+//         const data = JSON.parse(body);
 
-        // If the request is successful
-        if (!error && response.statusCode === 200) {
-            console.log(data.Title);
-            console.log(data.Year);
-            console.log(data.imbdRating);
-            console.log(data.Country);
-            console.log(data.Language);
-            console.log(data.Plot);
-            console.log(data.Actors);
+//         // If the request is successful
+//         if (!error && response.statusCode === 200) {
+//             console.log(data.Title);
+//             console.log(data.Year);
+//             console.log(data.imbdRating);
+//             console.log(data.Country);
+//             console.log(data.Language);
+//             console.log(data.Plot);
+//             console.log(data.Actors);
 
-        }
-    });
-}
+//         }
+//     });
+// }
 
 
 
