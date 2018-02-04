@@ -45,9 +45,9 @@ switch (service) {
         twitter();
         break;
 
-    case "do-what-it-says":
-        doWhat();
-        break;
+    // case "do-what-it-says":
+    //     doWhat();
+    //     break;
 
     default:
         break;
@@ -67,7 +67,14 @@ switch (service) {
 
 //Spotify
 function song() {
-    spotify.search({ type: 'track', query: search }, function (err, data) {
+    //If user does not enter a song
+    if (search === undefined) {
+        //This is not Ace of Base!!!
+        var song = "The Sign"
+    }else{
+        song = search;
+    }
+    spotify.search({ type: 'track', query: song }, function (err, data) {
         const track = data.tracks.items[0];
         if (err) {
             return console.log('Error occurred: ' + err);
@@ -77,6 +84,7 @@ function song() {
         console.log(track.preview_url);
         console.log(track.album.name);
     });
+    
 }
 
 
@@ -85,16 +93,27 @@ function twitter() {
     var params = { screen_name: 'saltzman_scott' };
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
-            console.log(tweets);
+            //limit to 4 tweets (because I only have 4 tweets in 4 years...)
+            for (var t = 0; t < 5; t++) {
+                console.log(tweets[t].text);
+                console.log(tweets[t].created_at);
+                //adding break between tweets
+                console.log("");
+            }
         }
-        
-    });
+    });  
 }
 
 
 //OMDB
 function omdb() {
-    request(`http://www.omdbapi.com/?apikey=trilogy&t=${search}`, function (error, response, body) {
+    if (search === undefined) {
+        //See Mr. Nobody!!!
+        var movie = "Mr. Nobody"
+    } else {
+        movie = search;
+    }
+    request(`http://www.omdbapi.com/?apikey=trilogy&t=${movie}`, function (error, response, body) {
         //parse JSON and store to const data
         const data = JSON.parse(body);
 
@@ -113,25 +132,7 @@ function omdb() {
 }
 
 
-// //I want
-// function doWhat() {
-//     request('http://www.omdbapi.com/?apikey=trilogy&t="I Want it That Way"', function (error, response, body) {
-//         //parse JSON and store to const data
-//         const data = JSON.parse(body);
 
-//         // If the request is successful
-//         if (!error && response.statusCode === 200) {
-//             console.log(data.Title);
-//             console.log(data.Year);
-//             console.log(data.imbdRating);
-//             console.log(data.Country);
-//             console.log(data.Language);
-//             console.log(data.Plot);
-//             console.log(data.Actors);
-
-//         }
-//     });
-// }
 
 
 
