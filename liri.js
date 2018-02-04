@@ -45,23 +45,14 @@ switch (service) {
         twitter();
         break;
 
-    // case "do-what-it-says":
-    //     doWhat();
-    //     break;
+    case "do-what-it-says":
+        doWhat();
+        break;
 
     default:
         break;
 }
 
-
-
-// function fsAppend() {
-//     fs.appendFile("random.txt", ", " + value, function (err) {
-//         if (err) {
-//             return console.log(err);
-//         }
-//     })
-// }
 
 
 
@@ -130,6 +121,37 @@ function omdb() {
         }
     });
 }
+
+function doWhat() {
+    
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        if (error) {
+            return console.log(error);
+        }else{
+            var random = (data.split(","));
+            var runCommand = random[0];
+            var itemSearch = random[1];
+            switch (runCommand) {
+                case "spotify-this-song":
+                    spotify.search({ type: 'track', query: itemSearch }, function (err, data) {
+                        const track = data.tracks.items[0];
+                        if (err) {
+                            return console.log('Error occurred: ' + err);
+                        }
+                        console.log(track.artists[0].name);
+                        console.log(track.name);
+                        console.log(track.preview_url);
+                        console.log(track.album.name);
+                    });
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    })
+}
+
 
 
 
